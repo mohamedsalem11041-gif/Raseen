@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>رصين — لوحتي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+.user-app{
+  min-height:100vh;
+  padding:1.75rem 2rem;
+  max-width:1100px;margin:0 auto;
+}
+.user-topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:2.5rem;
+}
+.user-brand{
+  font-family:'Tajawal',sans-serif;
+  font-size:1.6rem;font-weight:900;color:var(--text-primary);
+  display:flex;align-items:center;gap:6px;letter-spacing:-1px;
+}
+.user-brand-dot{width:7px;height:7px;border-radius:50%;background:#6AAED8;display:inline-block;margin-bottom:2px}
+.user-actions{display:flex;gap:.6rem}
+
+.user-hero{
+  text-align:center;padding:2.5rem 2rem;
+  margin-bottom:2rem;
+}
+.user-hero h1{
+  font-family:'Tajawal',sans-serif;
+  font-size:clamp(1.8rem,4vw,2.5rem);
+  font-weight:800;color:var(--text-primary);margin-bottom:.5rem;
+}
+.user-hero p{font-size:.95rem;color:var(--text-secondary);max-width:520px;margin:0 auto;line-height:1.7}
+
+.simple-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:1.25rem;margin-bottom:1.5rem;
+}
+.simple-card{
+  padding:1.75rem;
+  cursor:pointer;
+  transition:all .25s;
+}
+.simple-card:hover{transform:translateY(-3px);border-color:var(--glass-border-strong)}
+.simple-icon{
+  width:48px;height:48px;border-radius:12px;
+  background:rgba(59,126,200,.18);border:1px solid rgba(59,126,200,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;margin-bottom:1rem;
+}
+.simple-card h3{
+  font-family:'Tajawal',sans-serif;font-size:1.05rem;font-weight:700;
+  color:var(--text-primary);margin-bottom:.5rem;
+}
+.simple-card p{font-size:.85rem;color:var(--text-muted);line-height:1.65}
+
+.tip-card{
+  padding:1.5rem;
+  display:flex;gap:1rem;align-items:flex-start;
+  background:linear-gradient(135deg,rgba(106,174,216,.08),rgba(59,126,200,.04));
+  border:1px solid rgba(106,174,216,.2);
+}
+.tip-icon{
+  width:44px;height:44px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(135deg,#1A5F8A,#3B7EC8);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;
+}
+.tip-content h4{font-family:'Tajawal',sans-serif;font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:.3rem}
+.tip-content p{font-size:.85rem;color:var(--text-secondary);line-height:1.7}
+
+.user-card-mini{
+  display:flex;align-items:center;gap:10px;
+  padding:.5rem .75rem;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  border-radius:100px;
+}
+.user-mini-avatar{
+  width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(135deg,#1A5F8A,#2478AA);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;color:#F0EDE8;font-size:.78rem;
+}
+.user-mini-name{font-size:.85rem;font-weight:600;color:var(--text-primary)}
+
+@media (max-width:768px){
+  .user-app{padding:1.25rem 1rem}
+  .simple-grid{grid-template-columns:1fr}
+  .user-actions{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<div class="user-app">
+  <div class="user-topbar">
+    <div class="user-brand">رصين<span class="user-brand-dot"></span></div>
+    <div class="user-actions">
+      <div class="user-card-mini">
+        <div class="user-mini-avatar" id="userAvatar">حم</div>
+        <span class="user-mini-name" id="userName">حمادة</span>
+      </div>
+      <button class="icon-btn" onclick="Theme.toggle()" title="تبديل الوضع">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="icon-btn" onclick="Auth.logout()" title="تسجيل الخروج" style="color:var(--danger,#EF4444)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="glass user-hero">
+    <h1 id="welcomeText">أهلاً بك في رصين 👋</h1>
+    <p>منصة ذكاء اصطناعي سعودية لرصد الاحتراق الوظيفي وتحسين الرفاهية في بيئة العمل</p>
+  </div>
+
+  <div class="glass tip-card" style="margin-bottom:2rem">
+    <div class="tip-icon">💡</div>
+    <div class="tip-content">
+      <h4>هل تعلم؟</h4>
+      <p>يعاني ٧٦٪ من الموظفين من الاحتراق الوظيفي في مرحلة ما. اكتشاف الإشارات المبكرة قد يوفّر على شركتك تكاليف باهظة ويحمي كفاءاتك المميزة.</p>
+    </div>
+  </div>
+
+  <h2 style="font-family:'Tajawal',sans-serif;font-size:1.2rem;font-weight:700;color:var(--text-primary);margin-bottom:1rem">استكشف</h2>
+
+  <div class="simple-grid">
+    <div class="glass simple-card" onclick="showToast('قيد التطوير','info')">
+      <div class="simple-icon">📚</div>
+      <h3>مكتبة الموارد</h3>
+      <p>مقالات وفيديوهات حول الصحة النفسية وإدارة ضغط العمل</p>
+    </div>
+    <div class="glass simple-card" onclick="showToast('قيد التطوير','info')">
+      <div class="simple-icon">🧘</div>
+      <h3>تمارين الاسترخاء</h3>
+      <p>تنفّس مربّع، تأريض، وتقنيات أخرى لإعادة ضبط تركيزك</p>
+    </div>
+    <div class="glass simple-card" onclick="showToast('قيد التطوير','info')">
+      <div class="simple-icon">📊</div>
+      <h3>عن المنصة</h3>
+      <p>تعرّف على كيف تحلل رصين البصمة الرقمية للأداء بدون المساس بخصوصيتك</p>
+    </div>
+    <div class="glass simple-card" onclick="showToast('قيد التطوير','info')">
+      <div class="simple-icon">💬</div>
+      <h3>تواصل معنا</h3>
+      <p>أسئلة أو ملاحظات؟ فريقنا جاهز للمساعدة</p>
+    </div>
+  </div>
+</div>
+
+<script src="shared.js"></script>
+<script>
+injectMarbleBackground();
+
+const currentUser = Auth.requireRole('user');
+if (currentUser) {
+  document.getElementById('userName').textContent = currentUser.name.split(' ')[0];
+  document.getElementById('userAvatar').textContent = currentUser.avatar || currentUser.name.substring(0, 2);
+  document.getElementById('welcomeText').textContent = `أهلاً ${currentUser.name.split(' ')[0]} 👋`;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "raseen",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Raseen — منصة التنبؤ بالاحتراق الوظيفي",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

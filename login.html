@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>رصين — تسجيل الدخول</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* Login page specific */
+.login-shell{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:2rem 1.5rem;
+}
+.login-card{
+  width:100%;max-width:440px;
+  padding:2.5rem 2.25rem;
+  animation:fadeUp .5s ease;
+}
+.login-brand{
+  text-align:center;
+  margin-bottom:2rem;
+}
+.login-brand-name{
+  font-family:'Tajawal',sans-serif;
+  font-size:2.5rem;font-weight:900;
+  color:var(--text-primary);
+  letter-spacing:-1.5px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-bottom:.4rem;
+}
+.login-brand-dot{width:9px;height:9px;border-radius:50%;background:#6AAED8;display:inline-block;margin-bottom:5px}
+.login-brand-tag{
+  font-size:.7rem;letter-spacing:4px;
+  color:var(--text-muted);text-transform:uppercase;
+}
+
+.login-title{
+  font-family:'Tajawal',sans-serif;
+  font-size:1.35rem;font-weight:800;
+  color:var(--text-primary);margin-bottom:.4rem;text-align:center;
+}
+.login-sub{
+  font-size:.85rem;color:var(--text-muted);
+  text-align:center;margin-bottom:1.75rem;
+}
+
+.form-group{margin-bottom:1.1rem}
+.form-label{
+  display:block;font-size:.78rem;font-weight:600;
+  color:var(--text-secondary);margin-bottom:.5rem;
+}
+.form-input{
+  width:100%;padding:.85rem 1rem;
+  background:var(--input-bg);
+  border:1px solid var(--input-border);
+  border-radius:10px;
+  font-family:inherit;font-size:.92rem;
+  color:var(--text-primary);direction:rtl;
+  transition:border-color .2s, box-shadow .2s;
+  outline:none;
+}
+.form-input:focus{
+  border-color:#6AAED8;
+  box-shadow:0 0 0 3px rgba(106,174,216,.12);
+}
+.form-input.error{
+  border-color:var(--danger);
+  box-shadow:0 0 0 3px rgba(239,68,68,.1);
+}
+.form-error{
+  display:none;
+  font-size:.75rem;color:var(--danger);
+  margin-top:.4rem;
+}
+.form-error.show{display:block;animation:fadeUp .25s ease}
+
+/* Role selector */
+.role-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:.6rem;
+}
+.role-card{
+  padding:1rem .75rem;
+  background:var(--glass-bg);
+  border:1.5px solid var(--glass-border);
+  border-radius:12px;
+  text-align:center;cursor:pointer;
+  transition:all .2s;
+}
+.role-card:hover{border-color:var(--glass-border-strong)}
+.role-card.selected{
+  background:linear-gradient(135deg,rgba(26,95,138,.25),rgba(36,120,170,.15));
+  border-color:#6AAED8;
+  box-shadow:0 4px 16px rgba(26,95,138,.2);
+}
+.role-icon{
+  font-size:1.5rem;margin-bottom:.4rem;
+  display:block;
+}
+.role-name{font-size:.82rem;font-weight:600;color:var(--text-primary)}
+.role-desc{font-size:.68rem;color:var(--text-muted);margin-top:2px}
+
+.btn-login{
+  width:100%;
+  background:linear-gradient(135deg,#1A5F8A,#2478AA);
+  color:#F0EDE8;border:none;
+  padding:.95rem;border-radius:10px;
+  font-family:inherit;font-size:.95rem;font-weight:600;
+  cursor:pointer;
+  box-shadow:0 4px 16px rgba(26,95,138,.35);
+  transition:transform .15s, box-shadow .15s;
+  margin-top:.5rem;
+}
+.btn-login:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(26,95,138,.45)}
+.btn-login:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+.login-footer{
+  text-align:center;margin-top:1.5rem;
+  font-size:.78rem;color:var(--text-muted);
+}
+.login-footer a{color:#6AAED8;text-decoration:none;font-weight:500}
+.login-footer a:hover{text-decoration:underline}
+
+.divider{
+  display:flex;align-items:center;gap:.75rem;
+  margin:1.25rem 0;
+  font-size:.7rem;color:var(--text-faint);
+  text-transform:uppercase;letter-spacing:2px;
+}
+.divider::before,.divider::after{
+  content:'';flex:1;height:1px;background:var(--glass-border);
+}
+
+.demo-hint{
+  background:rgba(106,174,216,.08);
+  border:1px solid rgba(106,174,216,.2);
+  border-radius:10px;
+  padding:.75rem 1rem;
+  font-size:.78rem;color:var(--text-secondary);
+  margin-bottom:1.25rem;line-height:1.6;
+}
+.demo-hint strong{color:var(--text-primary)}
+
+.theme-toggle-floating{
+  position:fixed;top:1.5rem;left:1.5rem;
+  width:42px;height:42px;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--text-primary);
+  backdrop-filter:blur(12px);
+  transition:transform .2s;z-index:50;
+}
+.theme-toggle-floating:hover{transform:rotate(20deg)}
+.theme-toggle-floating svg{width:18px;height:18px}
+
+@media (max-width:480px){
+  .login-card{padding:2rem 1.5rem}
+  .role-grid{grid-template-columns:1fr;gap:.5rem}
+  .role-card{display:flex;align-items:center;gap:1rem;text-align:right;padding:.85rem 1rem}
+  .role-icon{margin-bottom:0;font-size:1.4rem}
+}
+</style>
+</head>
+<body>
+
+<button class="theme-toggle-floating" onclick="Theme.toggle()" aria-label="تبديل الوضع">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
+</button>
+
+<div class="login-shell">
+  <div class="glass login-card">
+
+    <div class="login-brand">
+      <div class="login-brand-name">رصين<span class="login-brand-dot"></span></div>
+      <div class="login-brand-tag">RASEEN</div>
+    </div>
+
+    <h1 class="login-title">مرحباً بك</h1>
+    <p class="login-sub">سجّل دخولك للوصول إلى لوحتك</p>
+
+    <div class="demo-hint">
+      💡 <strong>وضع تجريبي:</strong> أدخل أي بريد وكلمة مرور (٤+ أحرف) واختر الدور للدخول
+    </div>
+
+    <form id="loginForm" novalidate>
+      <!-- Role Selection -->
+      <div class="form-group">
+        <label class="form-label">اختر دورك</label>
+        <div class="role-grid" id="roleGrid">
+          <div class="role-card" data-role="user">
+            <span class="role-icon">👤</span>
+            <div class="role-name">مستخدم</div>
+            <div class="role-desc">عرض بسيط</div>
+          </div>
+          <div class="role-card selected" data-role="employee">
+            <span class="role-icon">💼</span>
+            <div class="role-name">موظف</div>
+            <div class="role-desc">لوحة الأداء</div>
+          </div>
+          <div class="role-card" data-role="manager">
+            <span class="role-icon">👔</span>
+            <div class="role-name">مدير</div>
+            <div class="role-desc">لوحة الإدارة</div>
+          </div>
+        </div>
+        <div class="form-error" id="errRole">يرجى اختيار دور</div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label class="form-label" for="email">البريد الإلكتروني</label>
+        <input type="email" class="form-input" id="email" placeholder="ahmed@raseen.sa" autocomplete="email">
+        <div class="form-error" id="errEmail">يرجى إدخال بريد إلكتروني صالح</div>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label class="form-label" for="password">كلمة المرور</label>
+        <input type="password" class="form-input" id="password" placeholder="••••••••" autocomplete="current-password">
+        <div class="form-error" id="errPassword">كلمة المرور يجب أن تكون ٤ أحرف على الأقل</div>
+      </div>
+
+      <button type="submit" class="btn-login" id="btnLogin">تسجيل الدخول ←</button>
+    </form>
+
+    <div class="login-footer">
+      ليس لديك حساب؟ <a href="#" onclick="showToast('ميزة التسجيل قيد التطوير','info');return false">أنشئ حساباً</a>
+    </div>
+  </div>
+</div>
+
+<script src="shared.js"></script>
+<script>
+injectMarbleBackground();
+
+// If already logged in, redirect to dashboard
+(function(){
+  const u = Auth.getUser();
+  if (u) window.location.href = Auth.dashboardFor(u.role);
+})();
+
+// Role selection
+let selectedRole = 'employee';
+document.querySelectorAll('.role-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    selectedRole = card.dataset.role;
+    document.getElementById('errRole').classList.remove('show');
+  });
+});
+
+// Form validation
+function validate(){
+  let valid = true;
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+
+  // Reset
+  ['email','password'].forEach(f => {
+    document.getElementById(f).classList.remove('error');
+    document.getElementById('err' + f.charAt(0).toUpperCase() + f.slice(1)).classList.remove('show');
+  });
+  document.getElementById('errRole').classList.remove('show');
+
+  // Role
+  if (!selectedRole) {
+    document.getElementById('errRole').classList.add('show');
+    valid = false;
+  }
+
+  // Email
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRe.test(email)) {
+    document.getElementById('email').classList.add('error');
+    document.getElementById('errEmail').classList.add('show');
+    valid = false;
+  }
+
+  // Password
+  if (password.length < 4) {
+    document.getElementById('password').classList.add('error');
+    document.getElementById('errPassword').classList.add('show');
+    valid = false;
+  }
+
+  return valid;
+}
+
+// Submit
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!validate()) return;
+
+  const btn = document.getElementById('btnLogin');
+  btn.disabled = true;
+  btn.textContent = 'جاري التحقق...';
+
+  // Simulate auth delay
+  await new Promise(r => setTimeout(r, 600));
+
+  const email = document.getElementById('email').value.trim();
+  const name = email.split('@')[0]
+    .replace(/[._-]/g, ' ')
+    .replace(/\b\w/g, c => c.toUpperCase()) || 'مستخدم';
+
+  Auth.login({
+    email,
+    name,
+    role: selectedRole,
+    avatar: name.substring(0, 2),
+    loginTime: new Date().toISOString(),
+  });
+
+  showToast(`أهلاً ${name} 👋`, 'success');
+
+  setTimeout(() => {
+    window.location.href = Auth.dashboardFor(selectedRole);
+  }, 600);
+});
+
+// Clear errors on input
+['email','password'].forEach(f => {
+  document.getElementById(f).addEventListener('input', () => {
+    document.getElementById(f).classList.remove('error');
+    document.getElementById('err' + f.charAt(0).toUpperCase() + f.slice(1)).classList.remove('show');
+  });
+});
+</script>
+
+</body>
+</html>
